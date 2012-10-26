@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class InternetUtilImpl implements InternetUtil {
-	Socket socket;
+	Socket socket; // socket
 	DataOutputStream out;
  	DataInputStream in;
  	//BufferedReader dr;

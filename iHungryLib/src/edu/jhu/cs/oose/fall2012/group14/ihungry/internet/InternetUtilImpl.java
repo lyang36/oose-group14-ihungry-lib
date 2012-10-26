@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import edu.jhu.pha.idies.lyang.dmvisual.framework.InternetUtil;
-
 public class InternetUtilImpl implements InternetUtil {
 	Socket socket;
 	DataOutputStream out;

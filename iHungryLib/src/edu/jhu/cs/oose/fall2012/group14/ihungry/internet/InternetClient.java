@@ -24,7 +24,8 @@ public class InternetClient{
  	 * @return
  	 */
 	private boolean connect() throws Exception{
-		requestSocket = new Socket(CommunicationProtocol.serverIpAddress, CommunicationProtocol.serverPort);
+		requestSocket = new Socket(CommunicationProtocol.SERVER_IP_ADDRESS, 
+				CommunicationProtocol.SERVER_PORT);
 		internet = new InternetUtilImpl();
 		internet.setSocket(requestSocket);
 		return true;

@@ -11,6 +11,7 @@ public class internetClientTestUnit {
 		String a = CommunicationProtocol.construcSendingStr(
 				CommunicationProtocol.FB_SIGN_NAME, CommunicationProtocol.FB_SIGN_PASSWD, 
 				CommunicationProtocol.BUSI_LOGIN, "{\"name\": \"try\"}");
+		
 		System.out.println(a);
 		System.out.println(CommunicationProtocol.getUnameFromReceivedStr(a));
 		System.out.println(CommunicationProtocol.getPasswdFromReceivedStr(a));

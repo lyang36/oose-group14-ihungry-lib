@@ -14,7 +14,7 @@ public class InternetUtilImpl implements InternetUtil {
 	Socket socket;
 	DataOutputStream out;
  	DataInputStream in;
- 	//BufferedReader dr;
+
  	private static String startSymbol = "[_!_<Start>_!_]";
  	private static String stopSymbol = "[_!_<Stop>_!_]";
  	

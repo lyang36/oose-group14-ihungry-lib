@@ -2,7 +2,11 @@ package edu.jhu.cs.oose.fall2012.group14.ihungry.internet;
 
 import java.io.IOException;
 import java.net.Socket;
-
+/**
+ * All the method used for internet communications
+ * @author lyang
+ *
+ */
 public interface InternetUtil {
 	
 	/**

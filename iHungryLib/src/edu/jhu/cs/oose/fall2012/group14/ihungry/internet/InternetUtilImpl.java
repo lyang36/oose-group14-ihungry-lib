@@ -10,6 +10,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * The implementation of the internetUtil
+ * @author lyang
+ *
+ */
 public class InternetUtilImpl implements InternetUtil {
 	Socket socket;
 	DataOutputStream out;

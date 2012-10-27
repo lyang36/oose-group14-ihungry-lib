@@ -24,97 +24,7 @@ public class CommunicationProtocol {
 	
 	public static final int PASSWD_MD5_LENGTH = 32;
 	public static final int COMMAND_MD5_LENGTH = 32;
-	
-	
-	/**
-	 * Encrypt the message
-	 * @param str
-	 * @return
-	 */
-	public static final String encrypt(String str){
-		return str;
-	}
-	
-	/**
-	 * Decrypte the message
-	 * @param str
-	 * @return
-	 */
-	public static final String decrypt(String str){
-		return str;
-	}
-	
-	/**
-	 * pack the commandString and suppliInfo to be a packed string
-	 * @param returnString
-	 * @param returnSupString
-	 * @return
-	 */
-	public static final String packStr(String commandString, String suppliInfo){
-		return CommunicationProtocol.COMMAND_STARTER +	//[
-    			commandString +
-    			CommunicationProtocol.COMMAND_ENDER +	//]
-    			CommunicationProtocol.SUPINFO_STARTER+	//<
-    			suppliInfo+
-    			CommunicationProtocol.SUPINFO_ENDER;		//>
-	}
-	
-	/**
-	 * pack the message from a packed string
-	 * @param msg
-	 * @return
-	 */
-	public static final String packMsg(String msg){
-		return CommunicationProtocol.STRING_STARTER + msg+
-				CommunicationProtocol.STRING_ENDER;
-	}
-	
-	/**
-	 * unpack the message from the packed message
-	 * @param msg
-	 * @return
-	 */
-	public static final String unPackMsg(String msg){
-		if(msg.indexOf(STRING_STARTER) > -1){
-			if(msg.indexOf(STRING_ENDER) > -1){
-				return msg.substring(msg.indexOf(STRING_STARTER)+STRING_STARTER.length(),
-						msg.indexOf(STRING_ENDER));
-			}
-		}
-		return "";
-	}
-	
-	/**
-	 * get the command from the unpacked message
-	 * @param str
-	 * @return
-	 */
-	public static final String getCommandStr(String str){
-		int startin = str.indexOf(COMMAND_STARTER);
-		int endin = str.indexOf(COMMAND_ENDER);
-		if( startin == -1 || endin == -1){
-			return null;
-		}
 
-		String command = str.substring(startin+COMMAND_STARTER.length(), endin);
-		command = command.trim();
-		return command;
-	}
-	
-	/**
-	 * get the suppliInfo from the unpacked message
-	 * @param str
-	 * @return
-	 */
-	public static final String getSupinfo(String str){
-		int startin = str.indexOf(SUPINFO_STARTER);
-		int endin = str.indexOf(SUPINFO_ENDER);
-		if( startin == -1 || endin == -1){
-			return "";
-		}
-		System.out.println("supString: " + str.substring(startin + SUPINFO_STARTER.length(), endin));
-		return str.substring(startin + SUPINFO_STARTER.length(), endin);
-	}
 	
 	
 	
@@ -197,14 +107,190 @@ public class CommunicationProtocol {
 	
 	
 	
+	
+	/**
+	 * pack the uname, passwd, command, supInfo to a string that 
+	 * could be used in InternetUtil.sendAndGet()
+	 * @param md5uname
+	 * @param md5pass
+	 * @param md5Command
+	 * @param supInfo
+	 * @return
+	 */
+	public static final String construcSendingStr(String md5uname, String md5pass, 
+			String md5Command, String supInfo){
+		return encrypt(packMsg(packStr(md5uname + md5pass + md5Command, supInfo)));
+	}
+	
+	
+	/**
+	 * Encrypt the message
+	 * @param str
+	 * @return
+	 */
+	public static final String encrypt(String str){
+		return str;
+	}
+	
+	/**
+	 * Decrypte the message
+	 * @param str
+	 * @return
+	 */
+	public static final String decrypt(String str){
+		return str;
+	}
+	
+	/**
+	 * pack the commandString and suppliInfo to be a packed string
+	 * @param returnString
+	 * @param returnSupString
+	 * @return
+	 */
+	public static final String packStr(String commandString, String suppliInfo){
+		return CommunicationProtocol.COMMAND_STARTER +	//[
+    			commandString +
+    			CommunicationProtocol.COMMAND_ENDER +	//]
+    			CommunicationProtocol.SUPINFO_STARTER+	//<
+    			suppliInfo+
+    			CommunicationProtocol.SUPINFO_ENDER;		//>
+	}
+	
+	/**
+	 * pack the message from a packed string (e.g. [Command]<<>SupInfo>) 
+	 * @param msg
+	 * @return
+	 */
+	public static final String packMsg(String msg){
+		return CommunicationProtocol.STRING_STARTER + msg+
+				CommunicationProtocol.STRING_ENDER;
+	}
+	
+	/**
+	 * unpack the message from the packed message (eg.. &{[Command]<<>SupInfo>}&)
+	 * @param msg
+	 * @return
+	 */
+	public static final String unPackMsg(String msg){
+		if(msg.indexOf(STRING_STARTER) > -1){
+			if(msg.indexOf(STRING_ENDER) > -1){
+				return msg.substring(msg.indexOf(STRING_STARTER)+STRING_STARTER.length(),
+						msg.indexOf(STRING_ENDER));
+			}
+		}
+		return "";
+	}
+	
+	
+	
+	/**
+	 * get the command from the unpacked message (from unpackMsg(msg))
+	 * @param str
+	 * @return
+	 */
+	public static final String getCommandStr(String str){
+		int startin = str.indexOf(COMMAND_STARTER);
+		int endin = str.indexOf(COMMAND_ENDER);
+		if( startin == -1 || endin == -1){
+			return null;
+		}
+
+		String command = str.substring(startin+COMMAND_STARTER.length(), endin);
+		command = command.trim();
+		return command;
+	}
+	
+	
+	/**
+	 * get the supInfo directly from the received string by InternetClient.sendAndGet
+	 * This str is actually a encrypted one.
+	 * This method will decrypt, unpack and get the string automatically
+	 * @param str
+	 * @return
+	 */
+	public static final String getSupinfoFromReceivedStr(String str){
+		return getSupinfo(unPackMsg(decrypt(str)));
+	}
+	
+	
+	/**
+	 * get the suppliInfo from the unpacked message (from unpackMsg(msg))
+	 * @param str
+	 * @return
+	 */
+	public static final String getSupinfo(String str){
+		int startin = str.indexOf(SUPINFO_STARTER);
+		int endin = str.indexOf(SUPINFO_ENDER);
+		if( startin == -1 || endin == -1){
+			return "";
+		}
+		//System.out.println("supString: " + str.substring(startin + SUPINFO_STARTER.length(), endin));
+		return str.substring(startin + SUPINFO_STARTER.length(), endin);
+	}
+	
+	/**
+	 * get the username directly from the received string by InternetClient.sendAndGet
+	 * This str is actually a encrypted one.
+	 * This method will decrypt, unpack and get the string automatically
+	 * @param str
+	 * @return
+	 */
+	public static final String getUnameFromReceivedStr(String str){
+		return getUname(getCommandStr(unPackMsg(decrypt(str))));
+	}
+	
+
+	
+	/**
+	 * get the username from the command string
+	 * @param command
+	 * @return
+	 */
     public static String getUname(String command){
     	return command.substring(0, OBJECT_ID_LENGTH);
     }
     
+    
+	/**
+	 * get the passwd directly from the received string by InternetClient.sendAndGet
+	 * This str is actually a encrypted one.
+	 * This method will decrypt, unpack and get the string automatically
+	 * @param str
+	 * @return
+	 */
+	public static final String getPasswdFromReceivedStr(String str){
+		return getPasswd(getCommandStr(unPackMsg(decrypt(str))));
+	}
+	
+    
+    
+    /**
+     * get the password from the command string
+     * @param command
+     * @return
+     */
     public static String getPasswd(String command){
     	return command.substring(OBJECT_ID_LENGTH, OBJECT_ID_LENGTH+PASSWD_MD5_LENGTH);
     }
     
+    
+	/**
+	 * get the ReqestCode directly from the received string by InternetClient.sendAndGet
+	 * This str is actually a encrypted one.
+	 * This method will decrypt, unpack and get the string automatically
+	 * @param str
+	 * @return
+	 */
+	public static final String getRequestFromReceivedStr(String str){
+		return getRequest(getCommandStr(unPackMsg(decrypt(str))));
+	}
+	
+	
+    /**
+     * get the reuqest command from the command string
+     * @param command
+     * @return
+     */
     public static String getRequest(String command){
     	return command.substring(OBJECT_ID_LENGTH+PASSWD_MD5_LENGTH, OBJECT_ID_LENGTH 
     			+ PASSWD_MD5_LENGTH + COMMAND_MD5_LENGTH);

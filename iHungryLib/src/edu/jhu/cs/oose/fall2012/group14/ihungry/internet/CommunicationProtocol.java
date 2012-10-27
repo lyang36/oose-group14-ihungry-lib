@@ -11,7 +11,7 @@ public class CommunicationProtocol {
 	/**
 	 * basic connection parameters
 	 */
-	public static String SERVER_IP_ADDRESS = "mantiqueira.sdss.pha.jhu.edu";
+	public static String SERVER_IP_ADDRESS = "LocalHost";//"mantiqueira.sdss.pha.jhu.edu";
 	public static int SERVER_PORT = 12014;
 	
 	/**

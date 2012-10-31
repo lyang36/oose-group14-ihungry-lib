@@ -19,6 +19,10 @@ public class InternetClient{
 	private boolean isSucceeded = false;
 	Exception threadException = null;
  	
+	public InternetClient(){
+		
+	}
+	
  	/**
  	 * connect to the server
  	 * @return

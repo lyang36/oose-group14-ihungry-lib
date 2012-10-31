@@ -20,7 +20,12 @@ public class internetClientTestUnit {
 		
 		InternetClient client = new InternetClient();
 		try {
-			System.out.println(CommunicationProtocol.getRequestFromReceivedStr(client.sendAndGet(a, 30000)));
+			
+			assertEquals(CommunicationProtocol.getRequestFromReceivedStr(client.sendAndGet(a, 30000)), CommunicationProtocol.NO_SUCH_COMMAND);
+			
+		//	assertEquals(CommunicationProtocol.getRequestFromReceivedStr(client.sendAndGet(a, 30000)), CommunicationProtocol.LOGOUT);
+			
+		//	System.out.println(CommunicationProtocol.getRequestFromReceivedStr(client.sendAndGet(a, 30000)));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Exception");

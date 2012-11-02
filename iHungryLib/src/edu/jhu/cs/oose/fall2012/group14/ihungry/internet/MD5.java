@@ -11,9 +11,14 @@ public class MD5 {
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	public String getMd5(String text) throws NoSuchAlgorithmException{
+	public static String getMd5(String text){
         byte[] bst = text.getBytes();
-	 	MessageDigest md = MessageDigest.getInstance("MD5");
+	 	MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 	 	md.update(bst);
         byte[] mdbytes = md.digest();
         //convert the byte to hex format method 1
@@ -30,7 +35,7 @@ public class MD5 {
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	public String getNameMd5(String text) throws NoSuchAlgorithmException{
+	public static String getNameMd5(String text){
 		String fullMd5 = getMd5(text);
 		return fullMd5.substring(0,CommunicationProtocol.OBJECT_ID_LENGTH);
 	}

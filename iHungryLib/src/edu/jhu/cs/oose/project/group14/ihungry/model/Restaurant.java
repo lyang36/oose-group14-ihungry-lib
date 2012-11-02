@@ -1,5 +1,7 @@
 package edu.jhu.cs.oose.project.group14.ihungry.model;
 
+import org.json.JSONObject;
+
 /**
  * One subclass of Person
  * 
@@ -7,7 +9,7 @@ package edu.jhu.cs.oose.project.group14.ihungry.model;
  * 
  */
 
-public class Restaurant extends Person {
+public class Restaurant extends Person implements JSONHandler{
 
 	public Restaurant() {
 		// TODO Auto-generated constructor stub
@@ -33,5 +35,17 @@ public class Restaurant extends Person {
 	
 	public Album getAlbum(){
 		return null;
+	}
+
+	@Override
+	public JSONObject getJSON() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void parseFromJSONObject(JSONObject jsonobj) {
+		// TODO Auto-generated method stub
+		
 	}
 }

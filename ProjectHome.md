@@ -1,0 +1,1 @@
+the shared library for iHungry
